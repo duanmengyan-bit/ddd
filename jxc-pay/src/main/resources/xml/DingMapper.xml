@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bawei.jxcpay.mapper.DingMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.bawei.jxcpay.entity.Ding">
+        <result column="id" property="id" />
+        <result column="order_no" property="orderNo" />
+        <result column="statu" property="statu" />
+        <result column="subject" property="subject" />
+        <result column="total_amount" property="totalAmount" />
+        <result column="store_id" property="storeId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, order_no, statu, subject, total_amount, store_id
+    </sql>
+
+    <select id="insertinto">
+          insert into  ding set order_no=#{orderNo},total_amount=#{totalAmount},subject=#{subject},store_id=#{storeId},statu=#{statu}
+
+    </select>
+
+    <select id="selectStu" resultMap="BaseResultMap">
+         select * from ding where statu = #{i}
+    </select>
+
+    <update id="updatee">
+        update ding set order_no=#{orderNo},total_amount=#{totalAmount},subject=#{subject},store_id=#{storeId},statu=#{statu} where id=#{id}
+    </update>
+
+</mapper>

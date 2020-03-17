@@ -1,0 +1,6 @@
+com\baiwei\jxc\utils\PropertiesLoadUtil.class
+com\baiwei\jxc\alibabapay\qrcode\config\PayAutoPropertiesConfig.class
+com\baiwei\jxc\alibabapay\qrcode\config\PayConfig.class
+com\baiwei\jxc\utils\PropertiesUtil.class
+com\baiwei\jxc\alibabapay\qrcode\config\AliPayConfig.class
+com\baiwei\jxc\alibabapay\qrcode\service\AlibabapayQrCodeService.class

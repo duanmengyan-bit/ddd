@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bawei.jxcbiz.mapper.TGoodsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.bawei.jxcbiz.entity.TGoods">
+        <id column="id" property="id" />
+        <result column="code" property="code" />
+        <result column="inventory_quantity" property="inventoryQuantity" />
+        <result column="min_num" property="minNum" />
+        <result column="model" property="model" />
+        <result column="name" property="name" />
+        <result column="producer" property="producer" />
+        <result column="purchasing_price" property="purchasingPrice" />
+        <result column="remarks" property="remarks" />
+        <result column="selling_price" property="sellingPrice" />
+        <result column="unit" property="unit" />
+        <result column="type_id" property="typeId" />
+        <result column="state" property="state" />
+        <result column="last_purchasing_price" property="lastPurchasingPrice" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, code, inventory_quantity, min_num, model, name, producer, purchasing_price, remarks, selling_price, unit, type_id, state, last_purchasing_price
+    </sql>
+
+    <select id="getList" resultType="map">
+        SELECT a.code,a.name,b.name bname,IF(SUM(c.num)!="",SUM(c.num),0)num,inventory_quantity*purchasing_price zongprice,a.model,a.last_purchasing_price,a.inventory_quantity,a.selling_price,a.purchasing_price, a.unit, a.producer FROM t_goods a LEFT JOIN t_goodstype b ON a.type_id=b.id LEFT JOIN t_sale_list_goods c ON a.id = c.goods_id
+        <where>
+           <if test="bname !=null and bname!=''">
+               and b.name like concat("%",#{bname},"%")
+           </if>
+
+           <if test="jie!=null and jie!=''">
+               and (a.code=#{jie} or a.name like concat("%",#{jie},"%"))
+           </if>
+
+
+        </where>
+GROUP BY a.name ORDER BY CODE
+    </select>
+
+
+    <select id="getGoods" resultMap="BaseResultMap">
+
+
+SELECT
+  a.id,
+  a.code,
+  a.name,
+  a.model,
+  a.unit,
+  purchasing_price,
+  a.selling_price,
+  a.inventory_quantity
+FROM
+  t_goods a
+  LEFT JOIN t_goodstype b
+    ON a.type_id = b.id
+WHERE a.type_id = #{typeId}
+    </select>
+
+</mapper>

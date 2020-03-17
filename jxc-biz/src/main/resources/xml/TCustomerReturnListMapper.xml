@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bawei.jxcbiz.mapper.TCustomerReturnListMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.bawei.jxcbiz.entity.TCustomerReturnList">
+        <id column="id" property="id" />
+        <result column="amount_paid" property="amountPaid" />
+        <result column="amount_payable" property="amountPayable" />
+        <result column="customer_return_date" property="customerReturnDate" />
+        <result column="customer_return_number" property="customerReturnNumber" />
+        <result column="remarks" property="remarks" />
+        <result column="state" property="state" />
+        <result column="user_id" property="userId" />
+        <result column="customer_id" property="customerId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, amount_paid, amount_payable, customer_return_date, customer_return_number, remarks, state, user_id, customer_id
+    </sql>
+
+    <select id="getList" resultType="map">
+        SELECT a.customer_return_number,a.customer_return_date,a.amount_paid,b.name,c.true_name,a.remarks FROM t_customer_return_list a LEFT JOIN t_customer b ON a.customer_id=b.id LEFT JOIN t_user c ON a.user_id
+        =c.id
+    <where>
+        <if test="customerReturnNumber!=null and customerReturnNumber!=''">
+            a.customer_return_number=#{customerReturnNumber}
+        </if>
+        <if test="name!=null and name!=''">
+            and b.name=#{name}
+        </if>
+        <if test="startTime!=null and startTime!=''">
+            and a.customer_return_date>#{startTime}
+        </if>
+        <if test="endTime!=null and endTime!=''">
+            and a.customer_return_date &lt; #{endTime}
+        </if>
+        <if test="state!=null and state!=''">
+            and a.state =#{state}
+        </if>
+    </where>
+    </select>
+
+    <insert id="insertt">
+         INSERT INTO t_customer_return_list   ( amount_paid,  amount_payable,  remarks,  customer_return_date,    state,    customer_id ,customer_return_number,user_id)  VALUES   ( #{amountPaid}, #{amountPayable},  #{remarks},  #{customerReturnDate}, #{state}, #{customerId},#{customerReturnNumber},#{userId})
+    </insert>
+
+    <select id="selectMaxId" resultType="int">
+        SELECT MAX(id) FROM t_customer_return_list
+    </select>
+
+</mapper>

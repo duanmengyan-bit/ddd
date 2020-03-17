@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bawei.jxcbiz.mapper.NationMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.bawei.jxcbiz.entity.Nation">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="pid" property="pid" />
+    </resultMap>
+
+    <resultMap id="BaseResultMap1" type="com.bawei.jxccommon.Dto.NationDto">
+        <id column="id1" property="value" />
+        <result column="name" property="label" />
+        <collection property="children" ofType="com.bawei.jxccommon.Dto.NationDto">
+            <id column="id2" property="value" />
+            <result column="names" property="label" />
+        </collection>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, pid
+    </sql>
+
+    <select id="getList" resultMap="BaseResultMap1">
+       SELECT a.id id1,a.`name`,b.`id` id2, b.`name` NAMES FROM nation a LEFT JOIN nation b ON a.`id`=b.`pid` WHERE b.pid !=0
+    </select>
+
+
+</mapper>
